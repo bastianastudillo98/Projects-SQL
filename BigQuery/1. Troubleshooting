@@ -1,0 +1,85 @@
+---WHERE, ORDER BY
+SELECT
+  * 
+FROM
+  movie_data.movies
+WHERE
+  Genre = "Comedy"
+AND
+  Revenue > 300000000
+ORDER BY 
+  Release_Date DESC
+LIMIT 10;
+
+-- UNIONES
+
+--- INNER JOIN  
+SELECT
+  employees.name AS employee_name,
+  employees.role AS employee_role,
+  departments.name AS department_name
+FROM
+  Two.employees
+INNER JOIN
+  Two.departments ON
+  employees.department_id = departments.department_id;
+--- LEFT JOIN
+SELECT
+  employees.name AS employee_name,
+  employees.role AS employee_role,
+  departments.name AS department_name
+FROM
+  Two.employees
+LEFT JOIN
+  Two.departments ON
+  employees.department_id = departments.department_id;
+--- FULL OUTER JOIN
+SELECT
+  employees.name AS employee_name,
+  employees.role AS employee_role,
+  departments.name AS department_name
+FROM
+  Two.employees
+FULL OUTER JOIN
+  Two.departments ON
+  employees.department_id = departments.department_id;
+
+-- Warehouse_orders 
+
+SELECT 
+  orders.*
+FROM
+  Warehourse_orders.Orders AS orders
+JOIN
+  Warehourse_orders.Warehouse warehouse ON orders.warehouse_id = warehouse.warehouse_id;
+
+--- UNION DE Orders y Warehouse
+SELECT 
+  T1.*, -- Selecciona todas las columnas
+  T2.warehouse_alias,
+  T2.state
+FROM
+  Warehourse_orders.Orders AS T1 -- Cambio de nombre de tabla 
+JOIN
+  Warehourse_orders.Warehouse T2 ON T1.warehouse_id = T2.warehouse_id; -- Cambio nombre de tabla y union de T1 y T2
+-- La clave principal esta en t1 warehouse_id y relacionamos con T2 su columna warehouse_id
+
+--- COUNT, DISTINCT
+-- COUNT
+SELECT
+  COUNT(T2.state) AS num_state
+FROM
+  Warehourse_orders.Orders AS T1
+JOIN
+  Warehourse_orders.Warehouse T2 ON T1.warehouse_id = T2.warehouse_id;
+  
+--- Distinct- GROUP BY FOR COUNT
+SELECT
+  T2.state,
+  COUNT(DISTINCT order_id) AS num_orders
+FROM
+  Warehourse_orders.Orders AS T1
+JOIN
+  Warehourse_orders.Warehouse T2 ON T1.warehouse_id = T2.warehouse_id
+GROUP BY
+  T2.state;
